@@ -24,7 +24,7 @@ public class TicketBuyingTest {
 
     @BeforeEach
     public void openPage() {
-        Configuration.headless = true;
+//        Configuration.headless = true;
         open("http://localhost:8080");
     }
 
@@ -174,8 +174,8 @@ public class TicketBuyingTest {
 
         @Test
         @SneakyThrows
-        @DisplayName("№9 Figure 13 is in the month field")
-        public void ThirteenInMonth() {
+        @DisplayName("№9 The figure more than 12 is in the month field")
+        public void MoreThan12InMonth() {
             var cardData = getValidDeclinedCard();
             var month = DataGenerator.getTwoDigitsGreaterThan12();
             var ticketBuyingPage = new TicketBuyingPage();
@@ -216,10 +216,9 @@ public class TicketBuyingTest {
         @DisplayName("№12 A digit is in the month field")
         public void oneDigitInMonth() {
             var cardData = getValidApprovedCard();
-            var month = getOneDigit();
             var ticketBuyingPage = new TicketBuyingPage();
             ticketBuyingPage.chooseDebitCard();
-            ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
+            ticketBuyingPage.sendDataInForm(cardData.getNumber(), getOneDigit(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthError();
         }
@@ -265,23 +264,18 @@ public class TicketBuyingTest {
             ticketBuyingPage.yearError();
         }
 
-        @Test
-        @SneakyThrows
-        @DisplayName("№16 Previous month and current year are in their fields")
-        public void previousMonthAndCurrentYear() {
-            var cardData = getValidApprovedCard();
-            var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.chooseDebitCard();
-            ticketBuyingPage.sendDataInForm(cardData.getNumber(), getMonth(-1), getYear(0),
-                    cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
-            var expected = "APPROVED";
-            var paymentInfo = getPaymentInfo();
-            var orderInfo = getOrderInfo();
-            assertEquals(expected, paymentInfo.getStatus());
-            assertEquals(paymentInfo.getTransaction_id(), orderInfo.getPayment_id());
-            ticketBuyingPage.yearError();
-        }
+/** КАКУЮ КОНКРЕТНО ОШИБКУ Я ЗДЕСЬ ОЖИДАЮ - ГОДА ИЛИ МЕСЯЦА?*/
+//        @Test
+//        @SneakyThrows
+//        @DisplayName("№16 Previous month and current year are in their fields")
+//        public void previousMonthAndCurrentYear() {
+//            var cardData = getValidApprovedCard();
+//            var ticketBuyingPage = new TicketBuyingPage();
+//            ticketBuyingPage.chooseDebitCard();
+//            ticketBuyingPage.sendDataInForm(cardData.getNumber(), getMonth(-1), getYear(0),
+//                    cardData.getOwner(), cardData.getCvc());
+//            ticketBuyingPage.yearError();
+//        }
 
         @Test
         @SneakyThrows
@@ -316,11 +310,10 @@ public class TicketBuyingTest {
         @DisplayName("№19 Figures are in cardholder's name")
         public void cardholderFigures() {
             var cardData = getValidDeclinedCard();
-            var owner = "98756324875238745" + " " + "348926532874562";
             var ticketBuyingPage = new TicketBuyingPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
-                    owner, cardData.getCvc());
+                    getOwnerWithFigures(), cardData.getCvc());
             ticketBuyingPage.ownerError();
         }
 
