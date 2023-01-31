@@ -264,18 +264,17 @@ public class TicketBuyingTest {
             ticketBuyingPage.yearError();
         }
 
-/** КАКУЮ КОНКРЕТНО ОШИБКУ Я ЗДЕСЬ ОЖИДАЮ - ГОДА ИЛИ МЕСЯЦА?*/
-//        @Test
-//        @SneakyThrows
-//        @DisplayName("№16 Previous month and current year are in their fields")
-//        public void previousMonthAndCurrentYear() {
-//            var cardData = getValidApprovedCard();
-//            var ticketBuyingPage = new TicketBuyingPage();
-//            ticketBuyingPage.chooseDebitCard();
-//            ticketBuyingPage.sendDataInForm(cardData.getNumber(), getMonth(-1), getYear(0),
-//                    cardData.getOwner(), cardData.getCvc());
-//            ticketBuyingPage.yearError();
-//        }
+        @Test
+        @SneakyThrows
+        @DisplayName("№16 Previous month and current year are in their fields")
+        public void previousMonthAndCurrentYear() {
+            var cardData = getValidApprovedCard();
+            var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.chooseDebitCard();
+            ticketBuyingPage.sendDataInForm(cardData.getNumber(), getMonth(-1), getYear(0),
+                    cardData.getOwner(), cardData.getCvc());
+            ticketBuyingPage.yearError();
+        }
 
         @Test
         @SneakyThrows
