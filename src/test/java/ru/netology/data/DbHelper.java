@@ -5,18 +5,26 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Timestamp;
 
 public class DbHelper {
+
+    private static Connection connection;
+
+    @SneakyThrows
+    public static void setup() {
+        connection = DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
+    }
 
     @SneakyThrows
     public static void databaseCleanUp() {
         var deleteDataCredit = "DELETE FROM credit_request_entity;";
         var deleteDataPayment = "DELETE FROM payment_entity;";
         var deleteDataOrder = "DELETE FROM order_entity;";
+        setup();
         var runner = new QueryRunner();
-        var connection = DriverManager.getConnection("jdbc:mysql://185.119.57.47:3306/db_mysql", "app", "pass");
         runner.execute(connection, deleteDataCredit, new ScalarHandler<>());
         runner.execute(connection, deleteDataPayment, new ScalarHandler<>());
         runner.execute(connection, deleteDataOrder, new ScalarHandler<>());
@@ -36,11 +44,10 @@ public class DbHelper {
 
     @SneakyThrows
     public static PaymentEntity getPaymentInfo() {
+        setup();
         var paymentInfo = "SELECT * FROM payment_entity WHERE created = (SELECT MAX(created) FROM payment_entity);";
         var runner = new QueryRunner();
-        try (var connection = DriverManager.getConnection("jdbc:mysql://185.119.57.47:3306/db_mysql", "app", "pass")) {
         return runner.query(connection, paymentInfo, new BeanHandler<>(PaymentEntity.class));
-    }
     }
 
     @Data
@@ -55,11 +62,10 @@ public class DbHelper {
 
     @SneakyThrows
     public static OrderEntity getOrderInfo() {
+        setup();
         var orderInfo = "SELECT * FROM order_entity WHERE created = (SELECT MAX(created) FROM order_entity);";
         var runner = new QueryRunner();
-        try (var connection = DriverManager.getConnection("jdbc:mysql://185.119.57.47:3306/db_mysql", "app", "pass")) {
-            return runner.query(connection, orderInfo, new BeanHandler<>(OrderEntity.class));
-        }
+        return runner.query(connection, orderInfo, new BeanHandler<>(OrderEntity.class));
     }
 
 
@@ -75,10 +81,9 @@ public class DbHelper {
 
     @SneakyThrows
     public static CreditRequestEntity getCreditRequestInfo() {
+        setup();
         var creditRequestInfo = "SELECT * FROM credit_request_entity WHERE created = (SELECT MAX(created) FROM credit_request_entity);";
         var runner = new QueryRunner();
-        try (var connection = DriverManager.getConnection("jdbc:mysql://185.119.57.47:3306/db_mysql", "app", "pass")) {
-            return runner.query(connection, creditRequestInfo, new BeanHandler<>(CreditRequestEntity.class));
-        }
+        return runner.query(connection, creditRequestInfo, new BeanHandler<>(CreditRequestEntity.class));
     }
 }

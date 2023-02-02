@@ -3,12 +3,9 @@ package ru.netology.test;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataGenerator;
 import ru.netology.pages.TicketBuyingPage;
-
-import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +21,7 @@ public class TicketBuyingTest {
 
     @BeforeEach
     public void openPage() {
-//        Configuration.headless = true;
+        Configuration.headless = true;
         open("http://localhost:8080");
     }
 
@@ -38,7 +35,6 @@ public class TicketBuyingTest {
     public class PositiveScenarios {
 
         @Test
-        @SneakyThrows
         @DisplayName("№1 Buying with a valid debit card")
         public void shouldBuyWithValidCard() {
             var cardData = getValidApprovedCard();
@@ -46,7 +42,6 @@ public class TicketBuyingTest {
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
             var expected = "APPROVED";
             var paymentInfo = getPaymentInfo();
             var orderInfo = getOrderInfo();
@@ -57,7 +52,6 @@ public class TicketBuyingTest {
 
 
         @Test
-        @SneakyThrows
         @DisplayName("№2 Buying in credit with a valid card")
         public void shouldBuyWithCreditValidCard() {
             var cardData = getValidApprovedCard();
@@ -65,7 +59,6 @@ public class TicketBuyingTest {
             ticketBuyingPage.chooseCreditCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
             var expected = "APPROVED";
             var creditInfo = getCreditRequestInfo();
             var orderInfo = getOrderInfo();
@@ -79,7 +72,6 @@ public class TicketBuyingTest {
     public class DeclinedCard {
 
         @Test
-        @SneakyThrows
         @DisplayName("№3 Buying with a declined debit card")
         public void buyWithDeclinedCard() {
             var cardData = getValidDeclinedCard();
@@ -87,7 +79,6 @@ public class TicketBuyingTest {
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
             var expected = "DECLINED";
             var paymentInfo = getPaymentInfo();
             var orderInfo = getOrderInfo();
@@ -97,7 +88,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№4 Buying in credit with a declined card")
         public void buyCreditDeclinedCard() {
             var cardData = getValidDeclinedCard();
@@ -105,7 +95,6 @@ public class TicketBuyingTest {
             ticketBuyingPage.chooseCreditCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
             var expected = "DECLINED";
             var paymentInfo = getCreditRequestInfo();
             var orderInfo = getOrderInfo();
@@ -119,7 +108,6 @@ public class TicketBuyingTest {
     public class CardNumberField {
 
         @Test
-        @SneakyThrows
         @DisplayName("№5 13 digits in the card number field")
         public void thirteenDigitsCardNumber() {
             var cardData = getValidDeclinedCard();
@@ -131,7 +119,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№6 16 zero in the card number field")
         public void sixteenZeroCardNumber() {
             var cardData = getValidDeclinedCard();
@@ -139,12 +126,10 @@ public class TicketBuyingTest {
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getCardNumberWith16Zero(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
             ticketBuyingPage.declined();
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№7 Not existing card number is in the card number field")
         public void invalidCardNumber() {
             var cardData = getValidDeclinedCard();
@@ -152,12 +137,10 @@ public class TicketBuyingTest {
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getInvalidCardNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
-            TimeUnit.SECONDS.sleep(5);
             ticketBuyingPage.declined();
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№8 The card number field is empty")
         public void shouldAppearCardNumberError() {
             var cardData = getValidDeclinedCard();
@@ -173,7 +156,6 @@ public class TicketBuyingTest {
     public class MonthField {
 
         @Test
-        @SneakyThrows
         @DisplayName("№9 The figure more than 12 is in the month field")
         public void MoreThan12InMonth() {
             var cardData = getValidDeclinedCard();
@@ -186,7 +168,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№10 Figure 0 is in the month field")
         public void zeroDigitInMonth() {
             var cardData = getValidDeclinedCard();
@@ -199,7 +180,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№11 Two 0 are in the month field")
         public void twoZeroInMonth() {
             var cardData = getValidDeclinedCard();
@@ -212,7 +192,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№12 A digit is in the month field")
         public void oneDigitInMonth() {
             var cardData = getValidApprovedCard();
@@ -224,7 +203,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№13 The month field is empty")
         public void shouldAppearMonthError() {
             var cardData = getValidDeclinedCard();
@@ -240,7 +218,6 @@ public class TicketBuyingTest {
     public class YearField {
 
         @Test
-        @SneakyThrows
         @DisplayName("№14 Previous years are in year field")
         public void oldYear() {
             var cardData = getValidApprovedCard();
@@ -252,7 +229,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№15 Two zero are in year field")
         public void twoZeroYear() {
             var cardData = getValidApprovedCard();
@@ -265,7 +241,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№16 Previous month and current year are in their fields")
         public void previousMonthAndCurrentYear() {
             var cardData = getValidApprovedCard();
@@ -277,7 +252,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№17 The Year greater than the current year on 6 is in year field")
         public void greatestYear() {
             var cardData = getValidApprovedCard();
@@ -289,7 +263,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№18 The year field is empty")
         public void shouldAppearYearError() {
             var cardData = getValidDeclinedCard();
@@ -305,7 +278,6 @@ public class TicketBuyingTest {
     public class CardholdersNameField {
 
         @Test
-        @SneakyThrows
         @DisplayName("№19 Figures are in cardholder's name")
         public void cardholderFigures() {
             var cardData = getValidDeclinedCard();
@@ -317,7 +289,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№20 Symbols are in cardholder's name")
         public void cardholderSymbols() {
             var cardData = getValidDeclinedCard();
@@ -329,7 +300,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№21 Cardholder's name is on Cyrillic")
         public void cardholderOnCyrillic() {
             var cardData = getValidDeclinedCard();
@@ -341,7 +311,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№22 Cardholder's name is on lower case")
         public void cardholderLowerCase() {
             var cardData = getValidDeclinedCard();
@@ -353,7 +322,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№23 Cardholder's name is on capital letters")
         public void cardholderCapitalLetters() {
             var cardData = getValidDeclinedCard();
@@ -365,7 +333,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№24 Cardholder's name is greater than 85 symbols")
         public void cardholderGreaterThan85() {
             var cardData = getValidDeclinedCard();
@@ -377,7 +344,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№25 The cardholder's name field is empty")
         public void shouldAppearOwnerError() {
             var cardData = getValidDeclinedCard();
@@ -392,7 +358,6 @@ public class TicketBuyingTest {
     public class CvcField {
 
         @Test
-        @SneakyThrows
         @DisplayName("№26 Three zero are in CVC field")
         public void threeZeroCvc() {
             var cardData = getValidDeclinedCard();
@@ -405,7 +370,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№27 Less than 3 digits are in CVC field")
         public void lessThan3DigitsCvc() {
             var cardData = getValidDeclinedCard();
@@ -417,7 +381,6 @@ public class TicketBuyingTest {
         }
 
         @Test
-        @SneakyThrows
         @DisplayName("№28 The cvc field is empty")
         public void shouldAppearCvcError() {
             var cardData = getValidDeclinedCard();
