@@ -55,15 +55,15 @@ public class TicketBuyingPage {
 
     public void approved() {
         notificationSuccess
-                .shouldHave(Condition.text("Операция одобрена Банком."))
-                .shouldBe(Condition.visible, Duration.ofSeconds(10));
+                .shouldHave(Condition.text("Операция одобрена Банком."), Duration.ofSeconds(10))
+                .shouldBe(Condition.visible);
 
     }
 
     public void declined() {
         notificationError
-                .shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."))
-                .shouldBe(Condition.visible, Duration.ofSeconds(10));
+                .shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."), Duration.ofSeconds(10))
+                .shouldBe(Condition.visible);
     }
 
     public void monthErrorFormat() {

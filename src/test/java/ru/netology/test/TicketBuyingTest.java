@@ -21,7 +21,7 @@ public class TicketBuyingTest {
 
     @BeforeEach
     public void openPage() {
-        Configuration.headless = true;
+//        Configuration.headless = true;
         open("http://localhost:8080");
     }
 
