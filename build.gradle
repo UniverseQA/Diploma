@@ -36,5 +36,5 @@ dependencies {
 test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('headless')
-    systemProperty 'db.url', System.getProperty('jdbc:mysql://185.119.57.47:3306/db_mysql')
+    systemProperty 'db.url', System.getProperty('db.url')
 }
