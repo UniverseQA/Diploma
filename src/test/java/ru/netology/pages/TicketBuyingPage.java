@@ -30,8 +30,7 @@ public class TicketBuyingPage {
     private final SelenideElement cvcError = $x("//*[text()='CVC/CVV']/..//*[@class='input__sub']");
     private final SelenideElement notificationError = $x("//div[contains(@class, 'notification_status_error')]");
 
-    private final SelenideElement notificationSuccess = $(".notification_status_ok")
-            .shouldHave(Condition.text("Операция одобрена Банком."), Duration.ofSeconds(7));
+    private final SelenideElement notificationSuccess = $(".notification_status_ok");
 
     public void chooseDebitCard() {
         debitButton.click();
@@ -55,49 +54,153 @@ public class TicketBuyingPage {
     }
 
     public void approved() {
-        notificationSuccess.shouldBe(Condition.visible);
+        notificationSuccess
+                .shouldHave(Condition.text("Операция одобрена Банком."))
+                .shouldBe(Condition.visible, Duration.ofSeconds(10));
+
     }
 
     public void declined() {
-        notificationError.shouldBe(Condition.visible);
+        notificationError
+                .shouldHave(Condition.text("Ошибка! Банк отказал в проведении операции."))
+                .shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
 
-    public void monthError() {
+    public void monthErrorFormat() {
         cardNumberError.shouldBe(Condition.hidden);
-        monthError.shouldBe(Condition.visible);
+        monthError
+                .shouldHave(Condition.text("Неверный формат"))
+                .shouldBe(Condition.visible);
         yearError.shouldBe(Condition.hidden);
         ownerError.shouldBe(Condition.hidden);
         cvcError.shouldBe(Condition.hidden);
     }
-    public void cardNumberError() {
-        cardNumberError.shouldBe(Condition.visible);
+
+    public void monthErrorTerm() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError
+                .shouldHave(Condition.text("Неверно указан срок действия карты"))
+                .shouldBe(Condition.visible);
+        yearError.shouldBe(Condition.hidden);
+        ownerError.shouldBe(Condition.hidden);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void monthErrorFilling() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError
+                .shouldHave(Condition.text("Поле обязательно для заполнения"))
+                .shouldBe(Condition.visible);
+        yearError.shouldBe(Condition.hidden);
+        ownerError.shouldBe(Condition.hidden);
+        cvcError.shouldBe(Condition.hidden);
+    }
+    public void cardNumberErrorFormat() {
+        cardNumberError
+                .shouldHave(Condition.text("Неверный формат"))
+                .shouldBe(Condition.visible);
         monthError.shouldBe(Condition.hidden);
         yearError.shouldBe(Condition.hidden);
         ownerError.shouldBe(Condition.hidden);
         cvcError.shouldBe(Condition.hidden);
     }
 
-    public void yearError() {
-        cardNumberError.shouldBe(Condition.hidden);
+    public void cardNumberErrorFilling() {
+        cardNumberError
+                .shouldHave(Condition.text("Поле обязательно для заполнения"))
+                .shouldBe(Condition.visible);
         monthError.shouldBe(Condition.hidden);
-        yearError.shouldBe(Condition.visible);
+        yearError.shouldBe(Condition.hidden);
         ownerError.shouldBe(Condition.hidden);
         cvcError.shouldBe(Condition.hidden);
     }
 
-    public void ownerError() {
+    public void yearErrorFormat() {
         cardNumberError.shouldBe(Condition.hidden);
         monthError.shouldBe(Condition.hidden);
-        yearError.shouldBe(Condition.hidden);
-        ownerError.shouldBe(Condition.visible);
+        yearError
+                .shouldHave(Condition.text("Неверный формат"))
+                .shouldBe(Condition.visible);
+        ownerError.shouldBe(Condition.hidden);
         cvcError.shouldBe(Condition.hidden);
     }
 
-    public void cvcError() {
+    public void yearErrorExpired() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError
+                .shouldHave(Condition.text("Истёк срок действия карты"))
+                .shouldBe(Condition.visible);
+        ownerError.shouldBe(Condition.hidden);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void yearErrorTerm() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError
+                .shouldHave(Condition.text("Неверно указан срок действия карты"))
+                .shouldBe(Condition.visible);
+        ownerError.shouldBe(Condition.hidden);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void yearErrorFilling() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError
+                .shouldHave(Condition.text("Поле обязательно для заполнения"))
+                .shouldBe(Condition.visible);
+        ownerError.shouldBe(Condition.hidden);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void ownerErrorFormat() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError.shouldBe(Condition.hidden);
+        ownerError
+                .shouldHave(Condition.text("Неверный формат"))
+                .shouldBe(Condition.visible);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void ownerErrorLimit() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError.shouldBe(Condition.hidden);
+        ownerError
+                .shouldHave(Condition.text("Превышен лимит вводимых символов"))
+                .shouldBe(Condition.visible);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void ownerErrorFilling() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError.shouldBe(Condition.hidden);
+        ownerError
+                .shouldHave(Condition.text("Поле обязательно для заполнения"))
+                .shouldBe(Condition.visible);
+        cvcError.shouldBe(Condition.hidden);
+    }
+
+    public void cvcErrorFormat() {
         cardNumberError.shouldBe(Condition.hidden);
         monthError.shouldBe(Condition.hidden);
         yearError.shouldBe(Condition.hidden);
         ownerError.shouldBe(Condition.hidden);
-        cvcError.shouldBe(Condition.visible);
+        cvcError
+                .shouldHave(Condition.text("Неверный формат"))
+                .shouldBe(Condition.visible);
+    }
+    public void cvcErrorFilling() {
+        cardNumberError.shouldBe(Condition.hidden);
+        monthError.shouldBe(Condition.hidden);
+        yearError.shouldBe(Condition.hidden);
+        ownerError.shouldBe(Condition.hidden);
+        cvcError
+                .shouldHave(Condition.text("Поле обязательно для заполнения"))
+                .shouldBe(Condition.visible);
     }
 }
