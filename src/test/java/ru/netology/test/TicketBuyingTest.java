@@ -21,7 +21,7 @@ public class TicketBuyingTest {
 
     @BeforeEach
     public void openPage() {
-        Configuration.headless = true;
+//        Configuration.headless = true;
         open("http://localhost:8080");
     }
 
@@ -235,7 +235,7 @@ public class TicketBuyingTest {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
             ticketBuyingPage.chooseDebitCard();
-            ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getYear(-1),
+            ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getOneDigit(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.yearErrorFormat();
         }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.netology.test.TicketBuyingTest$CardholdersNameField" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-02-10T11:33:49" hostname="DESKTOP-1KSIJAI" time="8.927">
+  <properties/>
+  <testcase name="№26 The cardholder's name field is empty" classname="ru.netology.test.TicketBuyingTest$CardholdersNameField" time="8.927"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[Starting ChromeDriver 109.0.5414.74 (e7c5703604daa9cc128ccf5a5d3e993513758913-refs/branch-heads/5414@{#1172}) on port 1612
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+февр. 10, 2023 2:33:55 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 109, so returning the closest version found: 107
+]]></system-err>
+</testsuite>

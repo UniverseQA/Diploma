@@ -75,7 +75,9 @@ public class DataGenerator {
     }
 
     public static String getOneDigit() {
-        return faker.numerify("5");
+        var oneDigit = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+        };
+        return oneDigit[new Random().nextInt(oneDigit.length)];
     }
 
     public static String getEmptyMonth() {
