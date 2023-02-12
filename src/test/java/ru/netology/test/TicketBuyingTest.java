@@ -21,14 +21,13 @@ public class TicketBuyingTest {
 
     @BeforeEach
     public void openPage() {
-//        Configuration.headless = true;
+        Configuration.headless = true;
         open("http://localhost:8080");
     }
 
     @AfterAll
     public static void tearDownAll() {
         SelenideLogger.removeListener("allure");
-        databaseCleanUp();
     }
 
     @Nested
