@@ -7,7 +7,6 @@ import org.junit.jupiter.api.*;
 import ru.netology.data.DataGenerator;
 import ru.netology.pages.TicketBuyingPage;
 
-import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.DataGenerator.*;
 import static ru.netology.data.DbHelper.*;
@@ -17,12 +16,7 @@ public class TicketBuyingTest {
     @BeforeAll
     public static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-    }
-
-    @BeforeEach
-    public void openPage() {
         Configuration.headless = true;
-        open("http://localhost:8080");
     }
 
     @AfterAll
@@ -38,6 +32,7 @@ public class TicketBuyingTest {
         public void shouldBuyWithValidCard() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -55,6 +50,7 @@ public class TicketBuyingTest {
         public void shouldBuyWithCreditValidCard() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseCreditCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -75,6 +71,7 @@ public class TicketBuyingTest {
         public void buyWithDeclinedCard() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -91,6 +88,7 @@ public class TicketBuyingTest {
         public void buyCreditDeclinedCard() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseCreditCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -111,6 +109,7 @@ public class TicketBuyingTest {
         public void thirteenDigitsCardNumber() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getCardNumberWith13Digits(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -122,6 +121,7 @@ public class TicketBuyingTest {
         public void sixteenZeroCardNumber() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getCardNumberWith16Zero(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -133,6 +133,7 @@ public class TicketBuyingTest {
         public void invalidCardNumber() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getInvalidCardNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -144,6 +145,7 @@ public class TicketBuyingTest {
         public void shouldAppearCardNumberError() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getEmptyCardNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -160,6 +162,7 @@ public class TicketBuyingTest {
             var cardData = getValidDeclinedCard();
             var month = DataGenerator.getTwoDigitsGreaterThan12();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -172,6 +175,7 @@ public class TicketBuyingTest {
             var cardData = getValidDeclinedCard();
             var month = getZeroDigit();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -184,6 +188,7 @@ public class TicketBuyingTest {
             var cardData = getValidDeclinedCard();
             var month = getTwoZeroDigits();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -195,6 +200,7 @@ public class TicketBuyingTest {
         public void oneDigitInMonth() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), getOneDigit(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -206,6 +212,7 @@ public class TicketBuyingTest {
         public void previousMonthAndCurrentYear() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), getMonth(-1), getYear(0),
                     cardData.getOwner(), cardData.getCvc());
@@ -218,6 +225,7 @@ public class TicketBuyingTest {
         public void shouldAppearMonthError() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), getEmptyMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -233,6 +241,7 @@ public class TicketBuyingTest {
         public void oneDigitYear() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getOneDigit(),
                     cardData.getOwner(), cardData.getCvc());
@@ -244,6 +253,7 @@ public class TicketBuyingTest {
         public void oldYear() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getYear(-1),
                     cardData.getOwner(), cardData.getCvc());
@@ -256,6 +266,7 @@ public class TicketBuyingTest {
             var cardData = getValidApprovedCard();
             var year = "00";
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), year,
                     cardData.getOwner(), cardData.getCvc());
@@ -267,6 +278,7 @@ public class TicketBuyingTest {
         public void greatestYear() {
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getTwoDigitsGreaterThan28(),
                     cardData.getOwner(), cardData.getCvc());
@@ -278,6 +290,7 @@ public class TicketBuyingTest {
         public void shouldAppearYearError() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getEmptyYear(),
                     cardData.getOwner(), cardData.getCvc());
@@ -293,6 +306,7 @@ public class TicketBuyingTest {
         public void cardholderFigures() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithFigures(), cardData.getCvc());
@@ -304,6 +318,7 @@ public class TicketBuyingTest {
         public void cardholderSymbols() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithSymbols(), cardData.getCvc());
@@ -315,6 +330,7 @@ public class TicketBuyingTest {
         public void cardholderOnCyrillic() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithCyrillic(), cardData.getCvc());
@@ -326,6 +342,7 @@ public class TicketBuyingTest {
         public void cardholderLowerCase() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithLatinLowerCase(), cardData.getCvc());
@@ -337,6 +354,7 @@ public class TicketBuyingTest {
         public void cardholderCapitalLetters() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithCapitalLetters(), cardData.getCvc());
@@ -348,6 +366,7 @@ public class TicketBuyingTest {
         public void cardholderGreaterThan85() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithLatinUpperCaseMoreThan85Symbols(), cardData.getCvc());
@@ -359,6 +378,7 @@ public class TicketBuyingTest {
         public void shouldAppearOwnerError() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(), getEmptyOwner(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFilling();
@@ -374,6 +394,7 @@ public class TicketBuyingTest {
             var cardData = getValidDeclinedCard();
             var cvc = "000";
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cvc);
@@ -385,6 +406,7 @@ public class TicketBuyingTest {
         public void lessThan3DigitsCvc() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), getLessThan3Cvc());
@@ -396,6 +418,7 @@ public class TicketBuyingTest {
         public void shouldAppearCvcError() {
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
+            ticketBuyingPage.openPage();
             ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), getEmptyCVC());

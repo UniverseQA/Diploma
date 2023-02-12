@@ -11,8 +11,6 @@
 - Отсутствует надпись под полем при вводе невалидных значений, и успешно проходит оплата **_8/14_**  
 
 ![image](https://github.com/UniverseQA/Diploma/blob/main/png/allure-report.png?raw=true)
-![image](https://github.com/UniverseQA/Diploma/blob/main/png/a-r-1.png?raw=true)
-![image](https://github.com/UniverseQA/Diploma/blob/main/png/a-r-2.png?raw=true)
 
 ### Общие рекомендации 
 - Исправить все найденные ошибки;  

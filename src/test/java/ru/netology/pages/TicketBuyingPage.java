@@ -6,10 +6,11 @@ import com.codeborne.selenide.SelenideElement;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
+
 public class TicketBuyingPage {
 
+    private final SelenideElement startPage = $(byText("Путешествие дня"));
     private final SelenideElement debitTitle = $(byText("Оплата по карте"));
     private final SelenideElement creditTitle = $(byText("Кредит по данным карты"));
 
@@ -31,6 +32,12 @@ public class TicketBuyingPage {
     private final SelenideElement notificationError = $x("//div[contains(@class, 'notification_status_error')]");
 
     private final SelenideElement notificationSuccess = $(".notification_status_ok");
+
+    public void openPage() {
+        open("http://localhost:8080");
+        startPage.shouldBe(Condition.visible);
+        continueButton.shouldBe(Condition.hidden);
+    }
 
     public void chooseDebitCard() {
         debitButton.click();
