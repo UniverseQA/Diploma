@@ -5,6 +5,9 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataGenerator;
+import ru.netology.pages.CreditPage;
+import ru.netology.pages.DebitPage;
+import ru.netology.pages.StartPage;
 import ru.netology.pages.TicketBuyingPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,10 +33,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№1 Buying with a valid debit card")
         public void shouldBuyWithValidCard() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             var expected = "APPROVED";
@@ -44,14 +49,15 @@ public class TicketBuyingTest {
             ticketBuyingPage.approved();
         }
 
-
         @Test
         @DisplayName("№2 Buying in credit with a valid card")
         public void shouldBuyWithCreditValidCard() {
+            var startPage = new StartPage();
+            var creditPage = new CreditPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseCreditCard();
+            startPage.openPage();
+            creditPage.chooseCreditCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             var expected = "APPROVED";
@@ -69,10 +75,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№3 Buying with a declined debit card")
         public void buyWithDeclinedCard() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             var expected = "DECLINED";
@@ -86,10 +94,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№4 Buying in credit with a declined card")
         public void buyCreditDeclinedCard() {
+            var startPage = new StartPage();
+            var creditPage = new CreditPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseCreditCard();
+            startPage.openPage();
+            creditPage.chooseCreditCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             var expected = "DECLINED";
@@ -107,10 +117,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№5 13 digits in the card number field")
         public void thirteenDigitsCardNumber() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getCardNumberWith13Digits(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.cardNumberErrorFormat();
@@ -119,10 +131,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№6 16 zero in the card number field")
         public void sixteenZeroCardNumber() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getCardNumberWith16Zero(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.declined();
@@ -131,10 +145,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№7 Not existing card number is in the card number field")
         public void invalidCardNumber() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getInvalidCardNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.declined();
@@ -143,10 +159,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№8 The card number field is empty")
         public void shouldAppearCardNumberError() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(getEmptyCardNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.cardNumberErrorFilling();
@@ -159,11 +177,13 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№9 The figure more than 12 is in the month field")
         public void MoreThan12InMonth() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var month = DataGenerator.getTwoDigitsGreaterThan12();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthErrorTerm();
@@ -172,11 +192,13 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№10 Figure 0 is in the month field")
         public void zeroDigitInMonth() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var month = getZeroDigit();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthErrorFormat();
@@ -185,11 +207,13 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№11 Two 0 are in the month field")
         public void twoZeroInMonth() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var month = getTwoZeroDigits();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), month, cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthErrorTerm();
@@ -198,10 +222,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№12 A digit is in the month field")
         public void oneDigitInMonth() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), getOneDigit(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthErrorFormat();
@@ -210,23 +236,26 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№13 Previous month and current year are in their fields")
         public void previousMonthAndCurrentYear() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), getMonth(-1), getYear(0),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthErrorTerm();
         }
 
-
         @Test
         @DisplayName("№14 The month field is empty")
         public void shouldAppearMonthError() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), getEmptyMonth(), cardData.getYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.monthErrorFilling();
@@ -239,10 +268,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№15 A digit is in year field")
         public void oneDigitYear() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getOneDigit(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.yearErrorFormat();
@@ -251,10 +282,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№16 Previous years are in year field")
         public void oldYear() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getYear(-1),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.yearErrorExpired();
@@ -263,11 +296,13 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№17 Two zero are in year field")
         public void twoZeroYear() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var year = "00";
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), year,
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.yearErrorExpired();
@@ -276,10 +311,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№18 The Year greater than the current year on 6 is in year field")
         public void greatestYear() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidApprovedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getTwoDigitsGreaterThan28(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.yearErrorTerm();
@@ -288,10 +325,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№19 The year field is empty")
         public void shouldAppearYearError() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), getEmptyYear(),
                     cardData.getOwner(), cardData.getCvc());
             ticketBuyingPage.yearErrorFilling();
@@ -304,10 +343,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№20 Figures are in cardholder's name")
         public void cardholderFigures() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithFigures(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFormat();
@@ -316,10 +357,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№21 Symbols are in cardholder's name")
         public void cardholderSymbols() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithSymbols(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFormat();
@@ -328,10 +371,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№22 Cardholder's name is on Cyrillic")
         public void cardholderOnCyrillic() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithCyrillic(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFormat();
@@ -340,10 +385,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№23 Cardholder's name is on lower case")
         public void cardholderLowerCase() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithLatinLowerCase(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFormat();
@@ -352,10 +399,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№24 Cardholder's name is on capital letters")
         public void cardholderCapitalLetters() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithCapitalLetters(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFormat();
@@ -364,10 +413,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№25 Cardholder's name is greater than 85 symbols")
         public void cardholderGreaterThan85() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     getOwnerWithLatinUpperCaseMoreThan85Symbols(), cardData.getCvc());
             ticketBuyingPage.ownerErrorLimit();
@@ -376,10 +427,12 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№26 The cardholder's name field is empty")
         public void shouldAppearOwnerError() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(), getEmptyOwner(), cardData.getCvc());
             ticketBuyingPage.ownerErrorFilling();
         }
@@ -391,11 +444,13 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№27 Three zero are in CVC field")
         public void threeZeroCvc() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var cvc = "000";
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
+            startPage.openPage();
+            debitPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), cvc);
             ticketBuyingPage.cvcErrorFormat();
@@ -404,10 +459,10 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№28 Less than 3 digits are in CVC field")
         public void lessThan3DigitsCvc() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), getLessThan3Cvc());
             ticketBuyingPage.cvcErrorFormat();
@@ -416,10 +471,10 @@ public class TicketBuyingTest {
         @Test
         @DisplayName("№29 The cvc field is empty")
         public void shouldAppearCvcError() {
+            var startPage = new StartPage();
+            var debitPage = new DebitPage();
             var cardData = getValidDeclinedCard();
             var ticketBuyingPage = new TicketBuyingPage();
-            ticketBuyingPage.openPage();
-            ticketBuyingPage.chooseDebitCard();
             ticketBuyingPage.sendDataInForm(cardData.getNumber(), cardData.getMonth(), cardData.getYear(),
                     cardData.getOwner(), getEmptyCVC());
             ticketBuyingPage.cvcErrorFilling();

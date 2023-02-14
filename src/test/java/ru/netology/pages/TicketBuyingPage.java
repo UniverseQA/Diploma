@@ -5,19 +5,11 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TicketBuyingPage {
 
-    private final SelenideElement startPage = $(byText("Путешествие дня"));
-    private final SelenideElement debitTitle = $(byText("Оплата по карте"));
-    private final SelenideElement creditTitle = $(byText("Кредит по данным карты"));
-
-    private final SelenideElement debitButton = $(byText("Купить"));
-    private final SelenideElement creditButton = $(byText("Купить в кредит"));
     private final SelenideElement continueButton = $x("//span[text()='Продолжить']");
-
     private final SelenideElement cardNumberInput = $("input[placeholder='0000 0000 0000 0000']");
     private final SelenideElement monthInput = $("input[placeholder='08'");
     private final SelenideElement yearInput = $("input[placeholder='22'");
@@ -32,24 +24,6 @@ public class TicketBuyingPage {
     private final SelenideElement notificationError = $x("//div[contains(@class, 'notification_status_error')]");
 
     private final SelenideElement notificationSuccess = $(".notification_status_ok");
-
-    public void openPage() {
-        open("http://localhost:8080");
-        startPage.shouldBe(Condition.visible);
-        continueButton.shouldBe(Condition.hidden);
-    }
-
-    public void chooseDebitCard() {
-        debitButton.click();
-        debitTitle.shouldBe(Condition.visible);
-        continueButton.shouldBe(Condition.visible);
-    }
-
-    public void chooseCreditCard() {
-        creditButton.click();
-        creditTitle.shouldBe(Condition.visible);
-        continueButton.shouldBe(Condition.visible);
-    }
 
     public void sendDataInForm(String number, String month, String year, String owner, String cvc) {
         cardNumberInput.setValue(number);
